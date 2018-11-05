@@ -2,6 +2,8 @@ package net.ddns.armen181.torrenttv.service;
 
 import com.google.gson.Gson;
 import net.ddns.armen181.torrenttv.DTO.TTVAuth;
+import net.ddns.armen181.torrenttv.DTO.TTVChannel;
+import net.ddns.armen181.torrenttv.DTO.TranslationList;
 import net.ddns.armen181.torrenttv.util.TTVType;
 import net.ddns.armen181.torrenttv.util.URLParam;
 import org.apache.http.HttpResponse;
@@ -25,7 +27,7 @@ public class TTVAPIImpl implements TTVAPI {
 
 
     @Override
-    public String login(String login, String Password) {
+    public TTVAuth login(String login, String Password) {
         if(ttvAuth == null|| ttvAuth.getSession().equals("")) {
             String targetURL = "http://1ttvapi.top/v3/auth.php";
             List<URLParam> urlParameters = new ArrayList<>();
@@ -44,12 +46,13 @@ public class TTVAPIImpl implements TTVAPI {
             }
 
         }
-            return ttvAuth.getSession();
+            return ttvAuth;
 
     }
 
     @Override
-    public String translationList(String sessionId, TTVType type) {
+    public TranslationList translationList(String sessionId, TTVType type) {
+
         String targetURL = "http://api.torrent-tv.ru/v3/translation_list.php";
         List<URLParam> urlParameters = new ArrayList<>();
         urlParameters.add(new URLParam("session", sessionId));
@@ -57,15 +60,38 @@ public class TTVAPIImpl implements TTVAPI {
         urlParameters.add(new URLParam("typeresult", "json"));
 
         try {
-            return sendGet(targetURL, urlParameters);
+            return gson.fromJson(sendGet(targetURL, urlParameters),TranslationList.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return null;
+        return new TranslationList(0,null,null);
+    }
+
+    @Override
+    public TTVChannel translationStreamById(String sessionId, int channelId) {
+        String targetURL = "http://api.torrent-tv.ru/v3/translation_stream.php";
+        TTVChannel ttvChannel = null;
+        List<URLParam> urlParameters = new ArrayList<>();
+        urlParameters.add(new URLParam("session", sessionId));
+        urlParameters.add(new URLParam("channel_id", String.valueOf(channelId)));
+        urlParameters.add(new URLParam("typeresult", "json"));
+
+        try {
+            ttvChannel = gson.fromJson(sendGet(targetURL, urlParameters),TTVChannel.class);
+            return ttvChannel;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return new TTVChannel(0,"");
     }
 
 
+
+
+    // HTTP GET request
     private String sendGet(String url, List<URLParam> Parameters) throws Exception {
 
 
