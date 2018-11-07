@@ -1,6 +1,7 @@
 package net.ddns.armen181.torrenttv.service;
 
 import com.google.gson.Gson;
+import net.ddns.armen181.torrenttv.DTO.ScreenShotDTO;
 import net.ddns.armen181.torrenttv.DTO.TTVAuth;
 import net.ddns.armen181.torrenttv.DTO.TTVChannel;
 import net.ddns.armen181.torrenttv.DTO.TranslationList;
@@ -71,15 +72,13 @@ public class TTVAPIImpl implements TTVAPI {
     @Override
     public TTVChannel translationStreamById(String sessionId, int channelId) {
         String targetURL = "http://api.torrent-tv.ru/v3/translation_stream.php";
-        TTVChannel ttvChannel = null;
         List<URLParam> urlParameters = new ArrayList<>();
         urlParameters.add(new URLParam("session", sessionId));
         urlParameters.add(new URLParam("channel_id", String.valueOf(channelId)));
         urlParameters.add(new URLParam("typeresult", "json"));
 
         try {
-            ttvChannel = gson.fromJson(sendGet(targetURL, urlParameters),TTVChannel.class);
-            return ttvChannel;
+            return gson.fromJson(sendGet(targetURL, urlParameters),TTVChannel.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,7 +87,30 @@ public class TTVAPIImpl implements TTVAPI {
         return new TTVChannel(0,"");
     }
 
+    @Override
+    public ScreenShotDTO translationScreen(String sessionId, int channelId) {
+        String targetURL = "http://api.torrent-tv.ru/v3/translation_screen.php";
 
+        List<URLParam> urlParameters = new ArrayList<>();
+        urlParameters.add(new URLParam("session", sessionId));
+        urlParameters.add(new URLParam("channel_id", String.valueOf(channelId)));
+        urlParameters.add(new URLParam("typeresult", "json"));
+        urlParameters.add(new URLParam("count", "5"));
+
+        try {
+            return gson.fromJson(sendGet(targetURL, urlParameters),ScreenShotDTO.class);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ScreenShotDTO(0,null);
+    }
+
+    @Override
+    public String getSessionId() {
+        return ttvAuth.getSession();
+    }
 
 
     // HTTP GET request

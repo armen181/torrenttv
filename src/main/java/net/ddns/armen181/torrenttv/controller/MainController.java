@@ -1,6 +1,7 @@
 package net.ddns.armen181.torrenttv.controller;
 
 import lombok.NonNull;
+import net.ddns.armen181.torrenttv.DTO.ScreenShotDTO;
 import net.ddns.armen181.torrenttv.DTO.TTVAuth;
 import net.ddns.armen181.torrenttv.DTO.TTVChannel;
 import net.ddns.armen181.torrenttv.DTO.TranslationList;
@@ -16,6 +17,7 @@ public class MainController {
 
     public MainController(TTVAPI ttvapi) {
         this.ttvapi = ttvapi;
+        ttvapi.login("","");
     }
 
     @GetMapping({"/login","/login.html"})
@@ -25,12 +27,17 @@ public class MainController {
 
     @GetMapping({"/list","/list.html"})
     public TranslationList getList(@NonNull @RequestHeader int list){
-        return ttvapi.translationList(ttvapi.login("sss","sdsd").getSession(), TTVType.values()[list]);
+        return ttvapi.translationList(ttvapi.getSessionId(), TTVType.values()[list]);
     }
 
     @GetMapping({"/channel","/channel.html"})
     public TTVChannel getChannel(@NonNull @RequestHeader int channelId){
-        return ttvapi.translationStreamById(ttvapi.login("sss","sdsd").getSession(), channelId);
+        return ttvapi.translationStreamById(ttvapi.getSessionId(), channelId);
+    }
+
+    @GetMapping({"/screen","/screen.html"})
+    public ScreenShotDTO getScreen(@NonNull @RequestHeader int channelId){
+        return ttvapi.translationScreen(ttvapi.getSessionId(), channelId);
     }
 
 }
