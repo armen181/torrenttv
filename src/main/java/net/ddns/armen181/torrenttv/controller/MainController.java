@@ -20,7 +20,7 @@ public class MainController {
         ttvapi.login("","");
     }
 
-    @GetMapping({"/login","/login.html"})
+    @GetMapping({"/loginAPI","/loginAPI.html"})
     public TTVAuth login(){
         return ttvapi.login("sss","sdsd");
     }

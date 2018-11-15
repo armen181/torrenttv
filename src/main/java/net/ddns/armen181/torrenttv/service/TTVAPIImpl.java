@@ -119,13 +119,11 @@ public class TTVAPIImpl implements TTVAPI {
 
         HttpClient client = HttpClientBuilder.create().build();
         URIBuilder urlBuilder = new URIBuilder(url);
-        Parameters.forEach(x -> {
-            urlBuilder.setParameter(x.getName(), x.getValue());
-        });
+        Parameters.forEach(x -> urlBuilder.setParameter(x.getName(), x.getValue()));
         HttpGet request = new HttpGet(urlBuilder.build());
 
         // add request header
-        request.addHeader("User-Agent", USER_AGENT);
+        request.addHeader("UserCustom-Agent", USER_AGENT);
 
         HttpResponse response = client.execute(request);
 
@@ -157,7 +155,7 @@ public class TTVAPIImpl implements TTVAPI {
         HttpPost request = new HttpPost(urlBuilder.build());
 
         // add header
-        request.setHeader("User-Agent", USER_AGENT);
+        request.setHeader("UserCustom-Agent", USER_AGENT);
 
         HttpResponse response = client.execute(request);
         System.out.println("\nSending 'POST' request to URL : " + url);
