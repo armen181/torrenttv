@@ -5,6 +5,7 @@ import net.ddns.armen181.torrenttv.DTO.ScreenShotDTO;
 import net.ddns.armen181.torrenttv.DTO.TTVAuth;
 import net.ddns.armen181.torrenttv.DTO.TTVChannel;
 import net.ddns.armen181.torrenttv.DTO.TranslationList;
+import net.ddns.armen181.torrenttv.service.ChannelService;
 import net.ddns.armen181.torrenttv.service.TTVAPI;
 import net.ddns.armen181.torrenttv.util.TTVType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MainController {
     private TTVAPI ttvapi;
+    private ChannelService channelService;
 
-    public MainController(TTVAPI ttvapi) {
+    public MainController(TTVAPI ttvapi, ChannelService channelService) {
         this.ttvapi = ttvapi;
+        this.channelService = channelService;
         ttvapi.login("","");  // == load default value ==
     }
 

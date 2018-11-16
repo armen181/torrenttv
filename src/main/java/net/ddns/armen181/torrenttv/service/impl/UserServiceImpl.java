@@ -1,7 +1,8 @@
-package net.ddns.armen181.torrenttv.service;
+package net.ddns.armen181.torrenttv.service.impl;
 
 import net.ddns.armen181.torrenttv.domain.User;
 import net.ddns.armen181.torrenttv.repository.UserRepository;
+import net.ddns.armen181.torrenttv.service.UserService;
 import net.ddns.armen181.torrenttv.util.Role;
 import net.ddns.armen181.torrenttv.util.UserAccess;
 import org.springframework.beans.factory.annotation.Autowired;

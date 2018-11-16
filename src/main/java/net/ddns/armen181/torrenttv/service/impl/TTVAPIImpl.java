@@ -1,4 +1,4 @@
-package net.ddns.armen181.torrenttv.service;
+package net.ddns.armen181.torrenttv.service.impl;
 
 import com.google.gson.Gson;
 import com.sun.jndi.toolkit.url.Uri;
@@ -6,6 +6,7 @@ import net.ddns.armen181.torrenttv.DTO.ScreenShotDTO;
 import net.ddns.armen181.torrenttv.DTO.TTVAuth;
 import net.ddns.armen181.torrenttv.DTO.TTVChannel;
 import net.ddns.armen181.torrenttv.DTO.TranslationList;
+import net.ddns.armen181.torrenttv.service.TTVAPI;
 import net.ddns.armen181.torrenttv.util.TTVType;
 import net.ddns.armen181.torrenttv.util.URLParam;
 import org.apache.http.HttpResponse;
