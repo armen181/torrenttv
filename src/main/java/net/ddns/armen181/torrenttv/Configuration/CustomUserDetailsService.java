@@ -1,5 +1,6 @@
 package net.ddns.armen181.torrenttv.Configuration;
 
+import net.ddns.armen181.torrenttv.repository.UserRepository;
 import net.ddns.armen181.torrenttv.util.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -14,17 +15,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     private Environment env;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        if (s.equals("admin")) {
-            return new UserCustom(env.getProperty("admin.username"), BCrypt.hashpw(env.getProperty("admin.password"), BCrypt.gensalt(12)), Role.ADMIN);
-        } else if(s.equals("user"))
-            return new UserCustom(env.getProperty("user.username"), BCrypt.hashpw(env.getProperty("user.password"), BCrypt.gensalt(12)), Role.USER);
-
-        else {
+        if (userRepository.findByName(s).isPresent()) {
+            return  userRepository.findByName(s).get();
+        } else {
 
             throw new UsernameNotFoundException("UserCustom is not found.");
         }
     }
+
 }

@@ -1,6 +1,7 @@
 package net.ddns.armen181.torrenttv.service;
 
 import com.google.gson.Gson;
+import com.sun.jndi.toolkit.url.Uri;
 import net.ddns.armen181.torrenttv.DTO.ScreenShotDTO;
 import net.ddns.armen181.torrenttv.DTO.TTVAuth;
 import net.ddns.armen181.torrenttv.DTO.TTVChannel;
@@ -13,6 +14,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -22,6 +25,9 @@ import java.util.List;
 
 @Service
 public class TTVAPIImpl implements TTVAPI {
+    @Autowired
+    private Environment env;
+
     private final String USER_AGENT = "Mozilla/5.0";
     Gson gson = new Gson();
     TTVAuth ttvAuth = null;
@@ -78,7 +84,11 @@ public class TTVAPIImpl implements TTVAPI {
         urlParameters.add(new URLParam("typeresult", "json"));
 
         try {
-            return gson.fromJson(sendGet(targetURL, urlParameters),TTVChannel.class);
+            TTVChannel ttvChannel = gson.fromJson(sendGet(targetURL, urlParameters),TTVChannel.class);
+            URIBuilder urlBuilder = new URIBuilder("");
+            urlBuilder.setParameter("id", ttvChannel.getSource());
+            ttvChannel.setSource(env.getProperty("server.url")+urlBuilder.toString().substring(4)+"/video.mp4");
+            return ttvChannel;
         } catch (Exception e) {
             e.printStackTrace();
         }

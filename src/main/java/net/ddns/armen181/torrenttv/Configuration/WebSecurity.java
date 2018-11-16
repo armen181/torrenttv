@@ -25,9 +25,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.headers().frameOptions().disable();
         http
                 .authorizeRequests()
-
+                 .antMatchers("/h2-console/**","/registration.html","/js/**", "/register").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
                 .formLogin()
@@ -49,6 +50,19 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
 
     }
+
+//    @Bean
+//    org.h2.tools.Server h2Server() {
+//        Server server = new Server();
+//        try {
+//            server.runTool("-tcp");
+//            server.runTool("-tcpAllowOthers");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return server;
+//
+//    }
 
 
 

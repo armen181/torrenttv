@@ -17,7 +17,7 @@ public class MainController {
 
     public MainController(TTVAPI ttvapi) {
         this.ttvapi = ttvapi;
-        ttvapi.login("","");
+        ttvapi.login("","");  // == load default value ==
     }
 
     @GetMapping({"/loginAPI","/loginAPI.html"})
