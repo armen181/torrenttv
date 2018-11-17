@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class TranslationList {
 private int success;
-private CategoriesDTO[] categories;
+private CategoryDTO[] categories;
 private ChannelsDTO[] channels;
 
-    public TranslationList(int success, CategoriesDTO[] categories, ChannelsDTO[] channels) {
+    public TranslationList(int success, CategoryDTO[] categories, ChannelsDTO[] channels) {
         this.success = success;
         this.categories = categories;
         this.channels = channels;

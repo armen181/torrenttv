@@ -1,12 +1,3 @@
-var x = 0;
-var y = 0;
-var side = 0;
-var sideTemp = 0;
-var sessionId = "";
-var gameId = "";
-
-
-
 
 $(document).ready(function () {
 
@@ -18,24 +9,22 @@ $(document).ready(function () {
             "url": "list",
             "method": "GET",
             "headers": {
-                "list": 3
+                "list": 11
             }
         }
             $.ajax(settings).done(function (response) {
             if(response!=null) {
-                console.log(response.channels.length)
-                console.log(response);
                 var data= "";
 
-                for(var i=0;i<response.channels.length;i++){
-                    data += "<div class=\"raw container-fluid TTVChannelBTN\"  channelId=\"" + response.channels[i].id +"\">\n       " +
+                for(var i=0;i<response.length;i++){
+                    data += "<div class=\"raw container-fluid TTVChannelBTN\"  channelId=\"" + response[i].channelId +"\">\n       " +
                         "                    <div class=\"col-xs-3\">\n" +
                         "                        <div class=\"img-container\">\n" +
-                        "                            <img src=\"http://1ttv.org/uploads/" +  response.channels[i].logo + "\">\n" +
+                        "                            <img src=\"http://1ttv.org/uploads/" +  response[i].logo + "\">\n" +
                         "                        </div>\n" +
                         "                    </div>\n" +
                         "                    <div class=\"col-xs-9\">\n" +
-                        "                        <a class=\"btn btn-block\" >" + response.channels[i].name +"</a>\n" +
+                        "                        <a class=\"btn btn-block\" >" + response[i].name +"</a>\n" +
                         "                    </div></div>"
                 }
 

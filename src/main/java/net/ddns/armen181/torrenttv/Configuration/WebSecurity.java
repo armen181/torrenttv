@@ -26,9 +26,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.headers().frameOptions().disable();
-        http
+        http.httpBasic().and()
                 .authorizeRequests()
-                 .antMatchers("/h2-console/**","/registration.html","/js/**", "/register").permitAll()
+                 .antMatchers("/h2-console/**","/registration.html","/js/**", "/register","/rest/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
                 .formLogin()

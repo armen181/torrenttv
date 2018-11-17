@@ -1,6 +1,6 @@
 package net.ddns.armen181.torrenttv.repository;
 
-import net.ddns.armen181.torrenttv.domain.Channels;
+import net.ddns.armen181.torrenttv.domain.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,23 +22,23 @@ public class ChannelsDao {
         this.em = em;
     }
 
-    public List<Channels> findChannelsByCategory(Integer  group) {
+    public List<Channel> findChannelsByCategory(Integer  group) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Channels> cq = cb.createQuery(Channels.class);
-        Root<Channels> channelsRoot = cq.from(Channels.class);
+        CriteriaQuery<Channel> cq = cb.createQuery(Channel.class);
+        Root<Channel> channelsRoot = cq.from(Channel.class);
         Predicate authorNamePredicate = cb.equal(channelsRoot.get("group"), group);
         cq.where(authorNamePredicate);
-        TypedQuery<Channels> query = em.createQuery(cq);
+        TypedQuery<Channel> query = em.createQuery(cq);
         return query.getResultList();
     }
 
-    public List<Channels> findChannelsByName(String  name) {
+    public List<Channel> findChannelsByName(String  name) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Channels> cq = cb.createQuery(Channels.class);
-        Root<Channels> channelsRoot = cq.from(Channels.class);
+        CriteriaQuery<Channel> cq = cb.createQuery(Channel.class);
+        Root<Channel> channelsRoot = cq.from(Channel.class);
         Predicate authorNamePredicate = cb.equal(channelsRoot.get("name"), name);
         cq.where(authorNamePredicate);
-        TypedQuery<Channels> query = em.createQuery(cq);
+        TypedQuery<Channel> query = em.createQuery(cq);
         return query.getResultList();
     }
 

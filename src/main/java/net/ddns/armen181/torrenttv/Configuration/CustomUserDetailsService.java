@@ -1,13 +1,11 @@
 package net.ddns.armen181.torrenttv.Configuration;
 
 import net.ddns.armen181.torrenttv.repository.UserRepository;
-import net.ddns.armen181.torrenttv.util.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 @Service("customUserDetailsService")

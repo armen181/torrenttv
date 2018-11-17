@@ -1,12 +1,14 @@
 package net.ddns.armen181.torrenttv.service;
 
-import net.ddns.armen181.torrenttv.domain.Channels;
+import net.ddns.armen181.torrenttv.domain.Category;
+import net.ddns.armen181.torrenttv.domain.Channel;
 
 import java.util.List;
 
 public interface ChannelService {
-    Channels channelList();
-    List<Channels> findChannelsByCategory(Integer  group);
-    List<Channels> findChannelsByName(String  name);
+    Category channelList();
+    List<Channel> findChannelsByCategory(Integer  group);
+    List<Channel> findChannelsByName(String  name);
+    List<Category> getCategory(int id);
 
 }

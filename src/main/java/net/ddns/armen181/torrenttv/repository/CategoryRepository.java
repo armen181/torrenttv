@@ -1,14 +1,14 @@
 package net.ddns.armen181.torrenttv.repository;
 
-import net.ddns.armen181.torrenttv.domain.Channel;
+import net.ddns.armen181.torrenttv.domain.Category;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface ChannelRepository extends CrudRepository<Channel,Long> {
+public interface CategoryRepository extends CrudRepository<Category, Long> {
 
-Optional<Channel> findByChannelId (Integer id);
+    Optional<Category> findByCategoryIdOnApi(Integer id);
 
 }
