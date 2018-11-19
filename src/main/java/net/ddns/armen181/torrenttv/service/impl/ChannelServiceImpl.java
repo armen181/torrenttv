@@ -54,7 +54,7 @@ public class ChannelServiceImpl implements ChannelService {
                 .forEach(category -> categoryRepository.save(category));
 
         for (ChannelDto element : ttvapi.translationList(ttvapi.getSessionId(), TtvType.all).getChannels()) {
-            Channel channel = new Channel(element.getId(), element.getName(), element.getLogo(), element.getEpg_id(), categoryRepository.findByCategoryIdOnApi(element.getGroup()).get(), element.getAccess_translation(),element.getGroup());
+            Channel channel = new Channel(element.getId(), element.getName(), element.getLogo(), element.getEpg_id(), categoryRepository.findByCategoryIdOnApi(element.getGroup()).get(),element.getGroup(),element.getAccess_translation());
             channelRepository.save(channel);
         }
 

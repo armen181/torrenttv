@@ -4,16 +4,11 @@ package net.ddns.armen181.torrenttv.domain;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import net.ddns.armen181.torrenttv.util.AccessTranslation;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -22,7 +17,6 @@ import java.util.Set;
 @Table(name = "channel")
 public class Channel implements Serializable {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,11 +24,12 @@ public class Channel implements Serializable {
     @Column(name = "channelNumber", nullable = false)
     private int channelNumber;
 
-    @Column(name = "groupCategory")
-    private int groupCategory;
-
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "groupCategory", nullable = false)
+    private int groupCategory;
+
 
     @Column(name = "logo", nullable = false)
     private String logo;
@@ -42,35 +37,31 @@ public class Channel implements Serializable {
     @Column(name = "epgNumber", nullable = false)
     private int epgNumber;
 
-    //@Getter(AccessLevel.NONE)
-    @ManyToOne()
-    @JoinColumn(name = "category_id")
-    private Category category;
-
     @Enumerated(EnumType.STRING)
-    @Column(name = "accessTranslation", nullable = false)
     private AccessTranslation accessTranslation;
 
-//    @Getter(AccessLevel.NONE)
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(name = "favourite",
-//            joinColumns = @JoinColumn(name ="user"),
-//            inverseJoinColumns = @JoinColumn(name ="chennel_id"))
-//    private User user;
+    @Getter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id",referencedColumnName = "id")
+//    @JoinTable(name = "category_list", joinColumns = { @JoinColumn(name = "categories_id") },
+//            inverseJoinColumns = { @JoinColumn(name = "channel_id") })
+    private Category category;
 
+
+
+      @ManyToMany(mappedBy ="channels" )
+      private Set<User> users = new HashSet<>();
 
     public Channel() {
     }
 
-    public Channel(int channelNumber, String name, String logo, int epgNumber, Category category, AccessTranslation accessTranslation,int groupCategory) {
+    public Channel(int channelNumber, String name, String logo, int epgNumber, Category category,int groupCategory,AccessTranslation accessTranslation) {
         this.channelNumber = channelNumber;
         this.name = name;
         this.logo = logo;
         this.epgNumber = epgNumber;
         this.category = category;
-        this.accessTranslation= accessTranslation;
-      this.groupCategory=groupCategory;
+        this.groupCategory =groupCategory;
+        this.accessTranslation=accessTranslation;
     }
-
-
 }

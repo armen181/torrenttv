@@ -39,22 +39,22 @@ public class User implements UserDetails {
     @Column(name = "userLock", nullable = false)
     private Boolean userLock;
 
-//    @ManyToMany (fetch = FetchType.LAZY)
-//    @JoinTable(name = "favourite",
-//            joinColumns = @JoinColumn(name ="chennel_id"),
-//            inverseJoinColumns = @JoinColumn(name ="user"))
-//    private Set<Channel> channels = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "favourite",
+            joinColumns = @JoinColumn(name ="user_id"),
+            inverseJoinColumns = @JoinColumn(name ="channel_id"))
+    private Set<Channel> channels = new HashSet<>();
 
     public User() {
     }
 
-    public User(String userName, String userPassword, UserAccess userAccess, Role role, Boolean userLock) {
+    public User(String userName, String userPassword, UserAccess userAccess, Role role, Boolean userLock, Set<Channel> channels) {
         this.name = userName;
         this.userPassword = userPassword;
         this.userAccess = userAccess;
         this.role = role;
         this.userLock = userLock;
-      //  this.channels = channels;
+        this.channels = channels;
     }
 
     @Override

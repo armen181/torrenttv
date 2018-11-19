@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User userRegistration(String name, String password, UserAccess userAccess, Role role, Boolean isLock, Set<Channel> channels) {
-        User user = new User(name, BCrypt.hashpw(password, BCrypt.gensalt(12)), userAccess, role, isLock);
+        User user = new User(name, BCrypt.hashpw(password, BCrypt.gensalt(12)), userAccess, role, isLock,channels);
         return userRepository.save(user);
     }
 
