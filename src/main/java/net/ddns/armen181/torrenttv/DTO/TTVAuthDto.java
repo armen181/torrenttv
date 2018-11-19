@@ -3,7 +3,7 @@ package net.ddns.armen181.torrenttv.DTO;
 import lombok.Data;
 
 @Data
-public class TTVAuth {
+public class TTVAuthDto {
     private int success;
     private String error;
     private int balance;
@@ -11,7 +11,7 @@ public class TTVAuth {
     private int tsproxy_access;
     private String session;
 
-    public TTVAuth(int success, String error, int balance, int tsproxy_date, int tsproxy_access, String session) {
+    public TTVAuthDto(int success, String error, int balance, int tsproxy_date, int tsproxy_access, String session) {
         this.success = success;
         this.error = error;
         this.balance = balance;

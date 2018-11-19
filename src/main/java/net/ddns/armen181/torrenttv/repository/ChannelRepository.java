@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface ChannelRepository extends CrudRepository<Channel,Long> {
 
-Optional<Channel> findByChannelId (Integer id);
+Optional<Channel> findByChannelNumber (Integer id);
 
 }

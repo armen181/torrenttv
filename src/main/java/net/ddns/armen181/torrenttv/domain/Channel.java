@@ -1,51 +1,76 @@
 package net.ddns.armen181.torrenttv.domain;
 
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import net.ddns.armen181.torrenttv.util.AccessTranslation;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Data
 @Entity
-@Table(name = "channels")
+@Table(name = "channel")
 public class Channel implements Serializable {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "channelNumber", nullable = false)
-    private int channelId;
+    private int channelNumber;
+
+    @Column(name = "groupCategory")
+    private int groupCategory;
 
     @Column(name = "name", nullable = false)
     private String name;
-
-//    @Column(name = "channelGroup", nullable = false)
-//    private int group;
-
 
     @Column(name = "logo", nullable = false)
     private String logo;
 
     @Column(name = "epgNumber", nullable = false)
-    private int epg_id;
+    private int epgNumber;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id",referencedColumnName = "id")
-//    @JoinTable(name = "category_list", joinColumns = { @JoinColumn(name = "categories_id") },
-//            inverseJoinColumns = { @JoinColumn(name = "channel_id") })
+    //@Getter(AccessLevel.NONE)
+    @ManyToOne()
+    @JoinColumn(name = "category_id")
     private Category category;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "accessTranslation", nullable = false)
+    private AccessTranslation accessTranslation;
+
+//    @Getter(AccessLevel.NONE)
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "favourite",
+//            joinColumns = @JoinColumn(name ="user"),
+//            inverseJoinColumns = @JoinColumn(name ="chennel_id"))
+//    private User user;
+
 
     public Channel() {
     }
 
-    public Channel(int channelId, String name, String logo, int epg_id, Category category) {
-        this.channelId = channelId;
+    public Channel(int channelNumber, String name, String logo, int epgNumber, Category category, AccessTranslation accessTranslation,int groupCategory) {
+        this.channelNumber = channelNumber;
         this.name = name;
         this.logo = logo;
-        this.epg_id = epg_id;
+        this.epgNumber = epgNumber;
         this.category = category;
+        this.accessTranslation= accessTranslation;
+      this.groupCategory=groupCategory;
     }
+
+
 }

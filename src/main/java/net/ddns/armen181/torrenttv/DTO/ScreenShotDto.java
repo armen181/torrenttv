@@ -3,11 +3,11 @@ package net.ddns.armen181.torrenttv.DTO;
 import lombok.Data;
 
 @Data
-public class ScreenShotDTO {
+public class ScreenShotDto {
     private int success;
-    private PicsDTO[] screens;
+    private PicsDto[] screens;
 
-    public ScreenShotDTO(int success, PicsDTO[] screens) {
+    public ScreenShotDto(int success, PicsDto[] screens) {
         this.success = success;
         this.screens = screens;
     }

@@ -1,6 +1,6 @@
 //package net.ddns.armen181.torrenttv.Configuration;
 //
-//import net.ddns.armen181.torrenttv.DTO.CategoryDTO;
+//import net.ddns.armen181.torrenttv.DTO.CategoryDto;
 //import net.ddns.armen181.torrenttv.domain.Category;
 //import org.modelmapper.ModelMapper;
 //import org.springframework.context.annotation.Bean;
@@ -12,8 +12,8 @@
 //    @Bean
 //    public ModelMapper modelMapper() {
 //        ModelMapper modelMapper = new ModelMapper();
-//        modelMapper.createTypeMap(CategoryDTO.class,Category.class)
-//                .addMapping(CategoryDTO::getId, Category::setCategoryIdOnApi);
+//        modelMapper.createTypeMap(CategoryDto.class,Category.class)
+//                .addMapping(CategoryDto::getId, Category::setCategoryIdOnApi);
 //        return modelMapper;
 //    }
 //}

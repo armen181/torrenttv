@@ -1,9 +1,9 @@
 package net.ddns.armen181.torrenttv.controller;
 
 import lombok.NonNull;
-import net.ddns.armen181.torrenttv.DTO.ScreenShotDTO;
-import net.ddns.armen181.torrenttv.DTO.TTVAuth;
-import net.ddns.armen181.torrenttv.DTO.TTVChannel;
+import net.ddns.armen181.torrenttv.DTO.ScreenShotDto;
+import net.ddns.armen181.torrenttv.DTO.TTVAuthDto;
+import net.ddns.armen181.torrenttv.DTO.TTVChannelDto;
 import net.ddns.armen181.torrenttv.domain.Category;
 import net.ddns.armen181.torrenttv.domain.Channel;
 import net.ddns.armen181.torrenttv.service.ChannelService;
@@ -26,33 +26,33 @@ public class MainController {
     }
 
     @GetMapping({"/loginAPI","/loginAPI.html"})
-    public TTVAuth login(){
+    public TTVAuthDto login(){
         return ttvapi.login("sss","sdsd");
     }
 
 //    @GetMapping({"/list","/list.html"})
-//    public TranslationList getList(@NonNull @RequestHeader int list){
-//        return ttvapi.translationList(ttvapi.getSessionId(), TTVType.values()[list]);
+//    public TranslationListDto getList(@NonNull @RequestHeader int list){
+//        return ttvapi.translationList(ttvapi.getSessionId(), TtvType.values()[list]);
 //    }
     @GetMapping({"/list","/list.html"})
     public List<Channel> getList(@NonNull @RequestHeader int list){
-        return channelService.findChannelsByCategory(list);
+        return channelService.findChannelsByCategoryAndAccess(list);
     }
 
     @GetMapping({"/rest/test","/rest/test.html"})
     public Category  getTest(){
 
-        return channelService.getCategory(0).get(0);
+        return channelService.getCategory(0);
     }
 
 
     @GetMapping({"/channel","/channel.html"})
-    public TTVChannel getChannel(@NonNull @RequestHeader int channelId){
+    public TTVChannelDto getChannel(@NonNull @RequestHeader int channelId){
         return ttvapi.translationStreamById(ttvapi.getSessionId(), channelId);
     }
 
     @GetMapping({"/screen","/screen.html"})
-    public ScreenShotDTO getScreen(@NonNull @RequestHeader int channelId){
+    public ScreenShotDto getScreen(@NonNull @RequestHeader int channelId){
         return ttvapi.translationScreen(ttvapi.getSessionId(), channelId);
     }
 

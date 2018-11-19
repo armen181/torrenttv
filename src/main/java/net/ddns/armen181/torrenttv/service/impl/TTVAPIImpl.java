@@ -1,14 +1,13 @@
 package net.ddns.armen181.torrenttv.service.impl;
 
 import com.google.gson.Gson;
-import com.sun.jndi.toolkit.url.Uri;
-import net.ddns.armen181.torrenttv.DTO.ScreenShotDTO;
-import net.ddns.armen181.torrenttv.DTO.TTVAuth;
-import net.ddns.armen181.torrenttv.DTO.TTVChannel;
-import net.ddns.armen181.torrenttv.DTO.TranslationList;
+import net.ddns.armen181.torrenttv.DTO.ScreenShotDto;
+import net.ddns.armen181.torrenttv.DTO.TTVAuthDto;
+import net.ddns.armen181.torrenttv.DTO.TTVChannelDto;
+import net.ddns.armen181.torrenttv.DTO.TranslationListDto;
 import net.ddns.armen181.torrenttv.service.TTVAPI;
-import net.ddns.armen181.torrenttv.util.TTVType;
-import net.ddns.armen181.torrenttv.util.URLParam;
+import net.ddns.armen181.torrenttv.util.TtvType;
+import net.ddns.armen181.torrenttv.util.UrlParam;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -31,101 +30,101 @@ public class TTVAPIImpl implements TTVAPI {
 
     private final String USER_AGENT = "Mozilla/5.0";
     Gson gson = new Gson();
-    TTVAuth ttvAuth = null;
+    TTVAuthDto ttvAuthDto = null;
 
 
     @Override
-    public TTVAuth login(String login, String Password) {
-        if(ttvAuth == null|| ttvAuth.getSession().equals("")) {
+    public TTVAuthDto login(String login, String Password) {
+        if(ttvAuthDto == null|| ttvAuthDto.getSession().equals("")) {
             String targetURL = "http://1ttvapi.top/v3/auth.php";
-            List<URLParam> urlParameters = new ArrayList<>();
-            urlParameters.add(new URLParam("username", login));
-            urlParameters.add(new URLParam("password", Password));
-            urlParameters.add(new URLParam("application", "xbmc"));
-            urlParameters.add(new URLParam("typeresult", "json"));
-            urlParameters.add(new URLParam("guid", "6F9600DA-8B86-D591-B42D-00CF4FC154FF"));
+            List<UrlParam> urlParameters = new ArrayList<>();
+            urlParameters.add(new UrlParam("username", login));
+            urlParameters.add(new UrlParam("password", Password));
+            urlParameters.add(new UrlParam("application", "xbmc"));
+            urlParameters.add(new UrlParam("typeresult", "json"));
+            urlParameters.add(new UrlParam("guid", "6F9600DA-8B86-D591-B42D-00CF4FC154FF"));
 
             try {
-                //ttvAuth = gson.fromJson(sendGet(targetURL, urlParameters),TTVAuth.class);
-                //ttvAuth.setSession();
-                ttvAuth = new TTVAuth(0,"",0,0,0,"X9eELT4Berg8cabuPExIYryY");
+                //ttvAuthDto = gson.fromJson(sendGet(targetURL, urlParameters),TTVAuthDto.class);
+                //ttvAuthDto.setSession();
+                ttvAuthDto = new TTVAuthDto(0,"",0,0,0,"X9eELT4Berg8cabuPExIYryY");
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
-            return ttvAuth;
+            return ttvAuthDto;
 
     }
 
     @Override
-    public TranslationList translationList(String sessionId, TTVType type) {
+    public TranslationListDto translationList(String sessionId, TtvType type) {
 
         String targetURL = "http://api.torrent-tv.ru/v3/translation_list.php";
-        List<URLParam> urlParameters = new ArrayList<>();
-        urlParameters.add(new URLParam("session", sessionId));
-        urlParameters.add(new URLParam("type", type.toString()));
-        urlParameters.add(new URLParam("typeresult", "json"));
+        List<UrlParam> urlParameters = new ArrayList<>();
+        urlParameters.add(new UrlParam("session", sessionId));
+        urlParameters.add(new UrlParam("type", type.toString()));
+        urlParameters.add(new UrlParam("typeresult", "json"));
 
         try {
-            return gson.fromJson(sendGet(targetURL, urlParameters),TranslationList.class);
+            return gson.fromJson(sendGet(targetURL, urlParameters), TranslationListDto.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new TranslationList(0,null,null);
+        return new TranslationListDto(0,null,null);
     }
 
     @Override
-    public TTVChannel translationStreamById(String sessionId, int channelId) {
+    public TTVChannelDto translationStreamById(String sessionId, int channelId) {
         String targetURL = "http://api.torrent-tv.ru/v3/translation_stream.php";
-        List<URLParam> urlParameters = new ArrayList<>();
-        urlParameters.add(new URLParam("session", sessionId));
-        urlParameters.add(new URLParam("channel_id", String.valueOf(channelId)));
-        urlParameters.add(new URLParam("typeresult", "json"));
+        List<UrlParam> urlParameters = new ArrayList<>();
+        urlParameters.add(new UrlParam("session", sessionId));
+        urlParameters.add(new UrlParam("channel_id", String.valueOf(channelId)));
+        urlParameters.add(new UrlParam("typeresult", "json"));
 
         try {
-            TTVChannel ttvChannel = gson.fromJson(sendGet(targetURL, urlParameters),TTVChannel.class);
+            TTVChannelDto ttvChannelDto = gson.fromJson(sendGet(targetURL, urlParameters), TTVChannelDto.class);
             URIBuilder urlBuilder = new URIBuilder("");
-            urlBuilder.setParameter("id", ttvChannel.getSource());
-            ttvChannel.setSource(env.getProperty("server.url")+urlBuilder.toString().substring(4)+"/video.mp4");
-            return ttvChannel;
+            urlBuilder.setParameter("id", ttvChannelDto.getSource());
+            ttvChannelDto.setSource(env.getProperty("server.url")+urlBuilder.toString().substring(4)+"/video.mp4");
+            return ttvChannelDto;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        return new TTVChannel(0,"");
+        return new TTVChannelDto(0,"");
     }
 
     @Override
-    public ScreenShotDTO translationScreen(String sessionId, int channelId) {
+    public ScreenShotDto translationScreen(String sessionId, int channelId) {
         String targetURL = "http://api.torrent-tv.ru/v3/translation_screen.php";
 
-        List<URLParam> urlParameters = new ArrayList<>();
-        urlParameters.add(new URLParam("session", sessionId));
-        urlParameters.add(new URLParam("channel_id", String.valueOf(channelId)));
-        urlParameters.add(new URLParam("typeresult", "json"));
-        urlParameters.add(new URLParam("count", "5"));
+        List<UrlParam> urlParameters = new ArrayList<>();
+        urlParameters.add(new UrlParam("session", sessionId));
+        urlParameters.add(new UrlParam("channel_id", String.valueOf(channelId)));
+        urlParameters.add(new UrlParam("typeresult", "json"));
+        urlParameters.add(new UrlParam("count", "5"));
 
         try {
-            return gson.fromJson(sendGet(targetURL, urlParameters),ScreenShotDTO.class);
+            return gson.fromJson(sendGet(targetURL, urlParameters), ScreenShotDto.class);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new ScreenShotDTO(0,null);
+        return new ScreenShotDto(0,null);
     }
 
     @Override
     public String getSessionId() {
-        return ttvAuth.getSession();
+        return ttvAuthDto.getSession();
     }
 
 
     // HTTP GET request
-    private String sendGet(String url, List<URLParam> Parameters) throws Exception {
+    private String sendGet(String url, List<UrlParam> Parameters) throws Exception {
 
 
         HttpClient client = HttpClientBuilder.create().build();
@@ -157,7 +156,7 @@ public class TTVAPIImpl implements TTVAPI {
     }
 
     // HTTP POST request
-    private void sendPost(String url, List<URLParam> Parameters) throws Exception {
+    private void sendPost(String url, List<UrlParam> Parameters) throws Exception {
         HttpClient client = HttpClientBuilder.create().build();
         URIBuilder urlBuilder = new URIBuilder(url);
         Parameters.forEach(x -> {

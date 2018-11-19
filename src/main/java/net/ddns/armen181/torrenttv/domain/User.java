@@ -9,7 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.*;
 
 
 @Data
@@ -39,6 +39,12 @@ public class User implements UserDetails {
     @Column(name = "userLock", nullable = false)
     private Boolean userLock;
 
+//    @ManyToMany (fetch = FetchType.LAZY)
+//    @JoinTable(name = "favourite",
+//            joinColumns = @JoinColumn(name ="chennel_id"),
+//            inverseJoinColumns = @JoinColumn(name ="user"))
+//    private Set<Channel> channels = new HashSet<>();
+
     public User() {
     }
 
@@ -48,6 +54,7 @@ public class User implements UserDetails {
         this.userAccess = userAccess;
         this.role = role;
         this.userLock = userLock;
+      //  this.channels = channels;
     }
 
     @Override

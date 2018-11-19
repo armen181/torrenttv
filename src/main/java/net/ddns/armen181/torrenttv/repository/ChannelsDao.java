@@ -26,7 +26,7 @@ public class ChannelsDao {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Channel> cq = cb.createQuery(Channel.class);
         Root<Channel> channelsRoot = cq.from(Channel.class);
-        Predicate authorNamePredicate = cb.equal(channelsRoot.get("group"), group);
+        Predicate authorNamePredicate = cb.equal(channelsRoot.get("groupCategory"), group);
         cq.where(authorNamePredicate);
         TypedQuery<Channel> query = em.createQuery(cq);
         return query.getResultList();

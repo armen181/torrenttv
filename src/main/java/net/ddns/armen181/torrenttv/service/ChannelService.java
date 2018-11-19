@@ -4,11 +4,13 @@ import net.ddns.armen181.torrenttv.domain.Category;
 import net.ddns.armen181.torrenttv.domain.Channel;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ChannelService {
     Category channelList();
-    List<Channel> findChannelsByCategory(Integer  group);
-    List<Channel> findChannelsByName(String  name);
-    List<Category> getCategory(int id);
+    List<Channel> findChannelsByCategoryAndAccess(Integer  group);
+    List<Channel> findChannelsByNameAndAccess(String  name);
+    Category getCategory(int id);
+    Set<Channel> getChannelsByCategory(int categoryId);
 
 }
