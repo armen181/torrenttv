@@ -10,9 +10,9 @@ public class ChannelDto {
     private String name;
     private int group;
     private String logo;
-    @JsonProperty("epg_id")
+    //@JsonProperty("epg_id")
     private int epg_id;
-    @JsonProperty("access_translation")
+   // @JsonProperty("access_translation")
     private AccessTranslation access_translation;
 
     public ChannelDto(int id, String name, int group, String logo, int epg_id) {

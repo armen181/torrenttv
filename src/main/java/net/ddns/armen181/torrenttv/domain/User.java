@@ -29,17 +29,11 @@ public class User implements UserDetails {
     private String userPassword;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "userAccess", nullable = false)
-    private UserAccess userAccess;
-
-    @Enumerated(EnumType.STRING)
     @Column(name = "userRole", nullable = false)
     private Role role;
 
-    @Column(name = "userLock", nullable = false)
-    private Boolean userLock;
 
-    @ManyToMany
+    @ManyToMany()
     @JoinTable(name = "favourite",
             joinColumns = @JoinColumn(name ="user_id"),
             inverseJoinColumns = @JoinColumn(name ="channel_id"))
@@ -48,14 +42,22 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String userName, String userPassword, UserAccess userAccess, Role role, Boolean userLock, Set<Channel> channels) {
-        this.name = userName;
-        this.userPassword = userPassword;
-        this.userAccess = userAccess;
-        this.role = role;
-        this.userLock = userLock;
-        this.channels = channels;
-    }
+//    public User(String userName, String userPassword, Role role, Set<Channel> channels) {
+//        this.name = userName;
+//        this.userPassword = userPassword;
+//        this.role = role;
+//        this.channels = channels;
+//    }
+
+
+//    public User addChannel(Channel channel){
+//        channel.setUser(this);
+//        this.channels.add(channel);
+//        return this;
+//    }
+
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -79,7 +81,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !getUserLock();
+        return true;
     }
 
     @Override

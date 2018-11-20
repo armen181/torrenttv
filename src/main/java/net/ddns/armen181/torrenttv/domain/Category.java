@@ -2,17 +2,21 @@ package net.ddns.armen181.torrenttv.domain;
 
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Data
 @Entity
+@EqualsAndHashCode(exclude = {"channels"})
 @Table(name = "category")
-public class Category implements Serializable {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,20 +37,17 @@ public class Category implements Serializable {
     private int adult;
 
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "category")
-//     @JoinTable(name = "category_list", joinColumns = { @JoinColumn(name = "channel_id") },
-//            inverseJoinColumns = { @JoinColumn(name = "categories_id") })
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    private Set<Channel> channels = new HashSet<>();
 
-    private List<Channel> channels = new ArrayList<>();
 
     public Category() {
     }
 
-    public Category(int categoryIdOnApi, String name, int position, int adult) {//, List<Channel> channels) {
-        this.categoryIdOnApi = categoryIdOnApi;
-        this.name = name;
-        this.position = position;
-        this.adult = adult;
-        //this.channels = channels;
-    }
+
+    public Category addChannel(Channel channel){
+    channel.setCategory(this);
+    this.channels.add(channel);
+    return this;
+}
 }

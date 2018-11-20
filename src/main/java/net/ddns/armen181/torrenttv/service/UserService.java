@@ -10,5 +10,5 @@ import java.util.Set;
 
 public interface UserService {
     User userRegistration(String name, String password, UserAccess userAccess, Role role, Boolean isLock, Set<Channel> channels);
-
+    User getByName(String name);
 }

@@ -32,19 +32,15 @@ private ChannelService channelService;
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        channelService.channelList();
-        System.out.println("###############");
-        System.out.println(channelsDao.findChannelsByCategory(1));
-
-        userService.userRegistration(env.getProperty("admin.username"),env.getProperty("admin.password"), UserAccess.All, Role.ADMIN,false,channelService.getChannelsByCategory(1));
-        userService.userRegistration(env.getProperty("user.username"),env.getProperty("user.password"), UserAccess.BASE, Role.USER,false,null);//channelService.getChannelsByCategory(2));
-        userService.userRegistration(env.getProperty("vip.username"),env.getProperty("vip.password"), UserAccess.MIDDLE, Role.VIP,false,null);//channelService.getChannelsByCategory(3));
+      //  channelService.addChannelList();
 
 
-        channelService.getCategory(0);
-        //System.out.println(channelsDao.findChannelsByCategory(1));
-//        channelsDao.findChannelsByCategory(4).forEach(System.out::println);
-//        System.out.println(channelsDao.findChannelsByCategory(4).size());
-//        System.out.println(channelsDao.findChannelsByName("Armenia TV Satellite"));
+     //   userService.userRegistration(env.getProperty("admin.username"),env.getProperty("admin.password"), UserAccess.All, Role.ADMIN,false,channelService.getChannelsByCategory(1));
+        //userService.userRegistration(env.getProperty("user.username"),env.getProperty("user.password"), UserAccess.BASE, Role.USER,false,null);//channelService.getChannelsByCategory(2));
+       // userService.userRegistration(env.getProperty("vip.username"),env.getProperty("vip.password"), UserAccess.MIDDLE, Role.VIP,false,null);//channelService.getChannelsByCategory(3));
+
+
+      //  channelService.getCategory(0);
+
     }
 }
