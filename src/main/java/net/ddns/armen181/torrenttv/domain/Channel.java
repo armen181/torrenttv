@@ -1,6 +1,8 @@
 package net.ddns.armen181.torrenttv.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,10 +16,10 @@ import java.util.Set;
 
 
 @Data
-@EqualsAndHashCode(exclude = {"user", "category"})
+@EqualsAndHashCode(exclude = {"users", "category"})
 @Entity
 @Table(name = "channel")
-public class Channel implements Serializable {
+public class Channel implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,26 +45,16 @@ public class Channel implements Serializable {
     private AccessTranslation accessTranslation;
 
     @Getter(AccessLevel.NONE)
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
-
-    @ManyToMany(mappedBy = "channels")
-    private Set<User> user = new HashSet<>();
+    @JsonIgnore
+    @ManyToMany(mappedBy = "favouriteChannels",fetch = FetchType.LAZY)
+    private Set<User> users = new HashSet<>();
 
     public Channel() {
     }
-
-//    public Channel(int channelNumber, String name, String logo, int epgNumber, Category category,int groupCategory,AccessTranslation accessTranslation, User user) {
-//        this.channelNumber = channelNumber;
-//        this.name = name;
-//        this.logo = logo;
-//        this.epgNumber = epgNumber;
-//      //  this.category = category;
-//        this.groupCategory =groupCategory;
-//        this.accessTranslation=accessTranslation;
-//        this.user=user;
-//    }
 
     public Channel(int channelNumber, String name, int groupCategory, String logo, int epgNumber, AccessTranslation accessTranslation) {
         this.channelNumber = channelNumber;
@@ -73,14 +65,5 @@ public class Channel implements Serializable {
         this.accessTranslation = accessTranslation;
     }
 
-//    public Channel(int channelNumber, String name, int groupCategory, String logo, int epgNumber, AccessTranslation accessTranslation, Category category, Set<User> user) {
-//        this.channelNumber = channelNumber;
-//        this.name = name;
-//        this.groupCategory = groupCategory;
-//        this.logo = logo;
-//        this.epgNumber = epgNumber;
-//        this.accessTranslation = accessTranslation;
-//        this.category = category;
-//        this.user = user;
-//    }
+
 }

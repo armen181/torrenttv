@@ -8,11 +8,10 @@ import java.util.List;
 import java.util.Set;
 
 public interface ChannelService {
-    Category addChannelList();
-    List<Channel> findChannelsByCategoryAndAccess(Integer  group);
-    String findChannelsByNameAndAccess(String  name);
-    List<Channel> findAllByAccessTranslationAndGroupCategory( int group);
+    void findChannelsFromTtvApi();
     Category getCategory(int id);
+    Set<Channel> getChannelsByFavourites();
     Set<Channel> getChannelsByCategory(int categoryId);
+    Channel getChannel(long id);
 
 }

@@ -11,6 +11,8 @@ import net.ddns.armen181.torrenttv.service.TTVAPI;
 import net.ddns.armen181.torrenttv.service.UserService;
 import net.ddns.armen181.torrenttv.util.AccessTranslation;
 import net.ddns.armen181.torrenttv.util.TtvType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,25 +20,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
 @Slf4j
 public class ChannelServiceImpl implements ChannelService {
-    private TTVAPI ttvapi;
-    private ChannelRepository channelRepository;
-    private ChannelsDao channelsDao;
-    private CategoryRepository categoryRepository;
-    private UserService userService;
 
 
-    public ChannelServiceImpl(
-            TTVAPI ttvapi,
-            ChannelRepository channelRepository,
-            ChannelsDao channelsDao,
-            CategoryRepository categoryRepository,
-            //ModelMapper modelMapper,
-            EntityManager entityManager, UserService userService) {
+    private  final TTVAPI ttvapi;
+
+    private final ChannelRepository channelRepository;
+
+    private final ChannelsDao channelsDao;
+
+    private final CategoryRepository categoryRepository;
+
+    private final UserService userService;
+
+    public ChannelServiceImpl(TTVAPI ttvapi, ChannelRepository channelRepository, ChannelsDao channelsDao, CategoryRepository categoryRepository, UserService userService) {
         this.ttvapi = ttvapi;
         this.channelRepository = channelRepository;
         this.channelsDao = channelsDao;
@@ -45,9 +47,8 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-
     @Transactional
-    public Category addChannelList() {
+    public void findChannelsFromTtvApi() {
         ttvapi.translationList(ttvapi.getSessionId(), TtvType.all).getCategories().forEach(x-> {
            Category category = new Category();
            category.setCategoryIdOnApi(x.getId());
@@ -65,51 +66,11 @@ public class ChannelServiceImpl implements ChannelService {
             channel.setGroupCategory(element.getGroup());
             channel.setLogo(element.getLogo());
             channel.setName(element.getName());
-            categoryRepository.findByCategoryIdOnApi(element.getGroup()).get().addChannel(channel);
+            categoryRepository.findByCategoryIdOnApi(element.getGroup()).ifPresent(x->x.addChannel(channel));
             channelRepository.save(channel);
         });
-
-       // List<Category> categories = Lists.newArrayList(categoryRepository.findAll());
-        return null;//categories.get(1);
-
-
     }
 
-
-    @Override
-    public List<Channel> findChannelsByCategoryAndAccess(Integer group) {
-        return channelsDao.findChannelsByCategory(group);
-    }
-
-    @Override
-    public String findChannelsByNameAndAccess(String name) {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        if(userService.getByName(securityContext.getAuthentication().getName()).getRole() != null && securityContext.getAuthentication().getName() != null){
-            return userService.getByName(securityContext.getAuthentication().getName()).getRole().toString();
-        }else {
-
-            return "Please Login";
-        }
-        //return channelsDao.findChannelsByName(name);
-    }
-
-    @Override
-    public List<Channel> findAllByAccessTranslationAndGroupCategory( int group) {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        if(userService.getByName(securityContext.getAuthentication().getName()).getRole() != null && securityContext.getAuthentication().getName() != null){
-        switch (userService.getByName(securityContext.getAuthentication().getName()).getRole()) {
-            case ADMIN:
-            case VIP:
-                return channelRepository.findByGroupCategory(group).orElseThrow(()-> new IllegalStateException("Category List not found"));
-
-            case USER:
-                  return channelRepository.findAllByAccessTranslationAndGroupCategory(AccessTranslation.all,group).orElseThrow(()-> new IllegalStateException("Category List not found"));
-        }
-        }
-        log.info("Cannot find user, please Login ");
-
-        return null;
-    }
 
     @Override
     public Category getCategory(int id) {
@@ -118,7 +79,20 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public Set<Channel> getChannelsByCategory(int categoryId) {
-        return null;//categoryRepository.findById(1L).isPresent()?(Sets.newHashSet(categoryRepository.findById(1L).get().getChannels())):null;
+    public Set<Channel> getChannelsByFavourites() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        return userService.getUserFavourites(securityContext.getAuthentication().getName());
     }
+
+    @Override
+    public Set<Channel> getChannelsByCategory(int categoryId) {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        return userService.getUserChannels(securityContext.getAuthentication().getName(), categoryId);
+    }
+
+    @Override
+    public Channel getChannel(long id) {
+        return null;
+    }
+
 }

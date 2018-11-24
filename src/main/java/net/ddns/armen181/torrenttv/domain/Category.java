@@ -1,8 +1,10 @@
 package net.ddns.armen181.torrenttv.domain;
 
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,7 +16,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@EqualsAndHashCode(exclude = {"channels"})
+@EqualsAndHashCode(exclude = {"channels","users"})
 @Table(name = "category")
 public class Category {
 
@@ -39,6 +41,11 @@ public class Category {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     private Set<Channel> channels = new HashSet<>();
+
+
+//    @Getter(AccessLevel.NONE)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
+    private Set<User> users = new HashSet<>();
 
 
     public Category() {

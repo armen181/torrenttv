@@ -18,7 +18,7 @@ public class UserRegistration {
 
     @GetMapping({"/register","/register.html"})
     public User login(@RequestHeader @NonNull String name, @RequestHeader @NonNull String password){
-        return userService.userRegistration(name,password, UserAccess.BASE, Role.USER,false,null); //add favourite channel list
+        return userService.userRegistration(name,password, UserAccess.BASE, Role.USER,false); //add favourite channel list
     }
 
 }

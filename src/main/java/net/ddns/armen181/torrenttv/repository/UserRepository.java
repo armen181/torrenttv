@@ -1,5 +1,6 @@
 package net.ddns.armen181.torrenttv.repository;
 
+import net.ddns.armen181.torrenttv.domain.Category;
 import net.ddns.armen181.torrenttv.domain.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

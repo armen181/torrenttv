@@ -2,8 +2,8 @@ package net.ddns.armen181.torrenttv.domain;
 
 import com.google.common.collect.Lists;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import net.ddns.armen181.torrenttv.util.Role;
-import net.ddns.armen181.torrenttv.util.UserAccess;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +13,7 @@ import java.util.*;
 
 
 @Data
+@EqualsAndHashCode(exclude = {"favouriteChannels","categories"})
 @Entity
 @Table(name = "user")
 public class User implements UserDetails {
@@ -34,27 +35,41 @@ public class User implements UserDetails {
 
 
     @ManyToMany()
-    @JoinTable(name = "favourite",
+    @JoinTable(name = "favouriteChannels",
             joinColumns = @JoinColumn(name ="user_id"),
             inverseJoinColumns = @JoinColumn(name ="channel_id"))
-    private Set<Channel> channels = new HashSet<>();
+    private Set<Channel> favouriteChannels = new HashSet<>();
 
-    public User() {
+
+    @ManyToMany
+    @JoinTable(name = "userCategory",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "user")
+    private Set<Favourite> favouriteNames = new HashSet<>();
+
+
+    public User addFavouriteChannel(Channel channel) {
+        channel.getUsers().add(this);
+        this.favouriteChannels.add(channel);
+        return this;
     }
 
-//    public User(String userName, String userPassword, Role role, Set<Channel> channels) {
-//        this.name = userName;
-//        this.userPassword = userPassword;
-//        this.role = role;
-//        this.channels = channels;
-//    }
+    public User addCategory (Category category) {
+        category.getUsers().add(this);
+        this.categories.add(category);
+        return this;
+    }
 
 
-//    public User addChannel(Channel channel){
-//        channel.setUser(this);
-//        this.channels.add(channel);
-//        return this;
-//    }
+
+
+
+
 
 
 
