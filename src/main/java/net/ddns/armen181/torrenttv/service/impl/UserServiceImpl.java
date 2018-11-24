@@ -45,16 +45,16 @@ public class UserServiceImpl implements UserService {
         user.setUserPassword(BCrypt.hashpw(password, BCrypt.gensalt(12)));
         user.setRole(role);
 
-        channelRepository.findAll().forEach(x -> {
-            if (role == Role.ADMIN || role == Role.VIP)
-                user.addFavouriteChannel(x);
-            else {
-                if (x.getAccessTranslation() == AccessTranslation.all)
-                    user.addFavouriteChannel(x);
-            }
-
-
-        });
+//        channelRepository.findAll().forEach(x -> {
+//            if (role == Role.ADMIN || role == Role.VIP)
+//                user.addFavouriteChannel(x);
+//            else {
+//                if (x.getAccessTranslation() == AccessTranslation.all)
+//                    user.addFavouriteChannel(x);
+//            }
+//
+//
+//        });
 
         categoryRepository.findAll().forEach(user::addCategory);
 
@@ -74,8 +74,18 @@ public class UserServiceImpl implements UserService {
         final Set<Channel> channels = new HashSet<>();
         user.ifPresent(user1 -> {
             user1.getCategories().iterator().forEachRemaining(x->{
+
                if (x.getCategoryIdOnApi()==category) {
-                   x.getChannels().iterator().forEachRemaining(channels::add);
+
+                   x.getChannels().iterator().forEachRemaining(y->{
+
+                       if(user1.getRole()==Role.ADMIN||user1.getRole()==Role.VIP){
+                           channels.add(y);
+                       }else if(y.getAccessTranslation()==AccessTranslation.all){
+                           channels.add(y);
+                       }
+
+                   });
                }
            });
         });
