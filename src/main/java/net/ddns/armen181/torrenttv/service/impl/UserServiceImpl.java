@@ -128,12 +128,26 @@ public class UserServiceImpl implements UserService {
                         us.addFavourite(favourite1);
                         us.addFavouriteChannel(ch);
                         userRepository.save(us);
-                        favouriteRepository.save(favourite1);
                     }
                 });
             }
         });
 
+        return this.getUserFavourites(userName);
+    }
+
+    @Override
+    public Set<Channel> removeUserFavourites(String userName, String channel) {
+        Optional<User> user = userRepository.findByName(userName);
+        Optional<Channel> optionalChannel = channelRepository.findByName(channel);
+        Optional<Favourite> favourite = favouriteRepository.findByName(channel);
+        user.ifPresent(us -> {
+            if (favourite.isPresent()) {
+                 favouriteRepository.delete(favourite.get());
+                 optionalChannel.ifPresent(channel1 -> us.getFavouriteChannels().remove(channel1));
+                 userRepository.save(us);
+            }
+        });
         return this.getUserFavourites(userName);
     }
 

@@ -49,7 +49,7 @@ public class User implements UserDetails {
     private Set<Category> categories = new HashSet<>();
 
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private Set<Favourite> favouriteNames = new HashSet<>();
 
 

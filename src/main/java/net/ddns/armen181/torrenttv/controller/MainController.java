@@ -54,6 +54,11 @@ public class MainController {
 
         return channelService.addFavourite(name);
     }
+    @GetMapping({"/removeFavourites","/removeFavourites.html"})
+    public Set<Channel>  removeFavourites(@NonNull @RequestHeader String name){
+
+        return channelService.removeFavourite(name);
+    }
 
 
     ///////////////////////////////////////////////////////////////////

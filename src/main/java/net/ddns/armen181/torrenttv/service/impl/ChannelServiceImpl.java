@@ -3,25 +3,18 @@ package net.ddns.armen181.torrenttv.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import net.ddns.armen181.torrenttv.domain.Category;
 import net.ddns.armen181.torrenttv.domain.Channel;
-import net.ddns.armen181.torrenttv.domain.User;
 import net.ddns.armen181.torrenttv.repository.CategoryRepository;
 import net.ddns.armen181.torrenttv.repository.ChannelRepository;
 import net.ddns.armen181.torrenttv.repository.ChannelsDao;
 import net.ddns.armen181.torrenttv.service.ChannelService;
 import net.ddns.armen181.torrenttv.service.TTVAPI;
 import net.ddns.armen181.torrenttv.service.UserService;
-import net.ddns.armen181.torrenttv.util.AccessTranslation;
 import net.ddns.armen181.torrenttv.util.TtvType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -101,6 +94,12 @@ public class ChannelServiceImpl implements ChannelService {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return userService.addUserFavourites(securityContext.getAuthentication().getName(), channelName);
 
+    }
+
+    @Override
+    public Set<Channel> removeFavourite(String channelName) {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        return userService.removeUserFavourites(securityContext.getAuthentication().getName(), channelName);
     }
 
 }

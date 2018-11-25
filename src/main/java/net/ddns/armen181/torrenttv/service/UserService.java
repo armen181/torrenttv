@@ -16,4 +16,6 @@ public interface UserService {
     Set<Category> getUserCategories(String name);
     Set<Channel> getUserFavourites (String name);
     Set<Channel> addUserFavourites(String name, String channel);
+    Set<Channel> removeUserFavourites(String name, String channel);
+
 }
