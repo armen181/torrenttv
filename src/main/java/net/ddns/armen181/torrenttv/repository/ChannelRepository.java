@@ -16,7 +16,7 @@ Optional<Channel> findByChannelNumber (Integer id);
 Optional<List<Channel>> findAllByAccessTranslationAndGroupCategory(AccessTranslation accessTranslation, Integer group);
 Optional<List<Channel>> findByGroupCategory(Integer group);
 Optional<List<Channel>> findByEpgNumber(Integer epgNumber);
-Optional<List<Channel>> findByName(String name);
+Optional<Channel> findByName(String name);
 Optional<List<Channel>> findByLogo(String logo);
 Optional<List<Channel>> findByAccessTranslation(AccessTranslation accessTranslation);
 

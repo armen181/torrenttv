@@ -3,11 +3,12 @@ package net.ddns.armen181.torrenttv.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import net.ddns.armen181.torrenttv.domain.Category;
 import net.ddns.armen181.torrenttv.domain.Channel;
+import net.ddns.armen181.torrenttv.domain.Favourite;
 import net.ddns.armen181.torrenttv.domain.User;
 import net.ddns.armen181.torrenttv.repository.CategoryRepository;
 import net.ddns.armen181.torrenttv.repository.ChannelRepository;
+import net.ddns.armen181.torrenttv.repository.FavouriteRepository;
 import net.ddns.armen181.torrenttv.repository.UserRepository;
-import net.ddns.armen181.torrenttv.service.ChannelService;
 import net.ddns.armen181.torrenttv.service.UserService;
 import net.ddns.armen181.torrenttv.util.AccessTranslation;
 import net.ddns.armen181.torrenttv.util.Role;
@@ -19,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
-    private ChannelService channelService;
+    private FavouriteRepository favouriteRepository;
 
     @Override
     @Transactional
@@ -58,7 +58,6 @@ public class UserServiceImpl implements UserService {
 
         categoryRepository.findAll().forEach(user::addCategory);
 
-
         return userRepository.save(user);
     }
 
@@ -73,28 +72,28 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = userRepository.findByName(name);
         final Set<Channel> channels = new HashSet<>();
         user.ifPresent(user1 -> {
-            user1.getCategories().iterator().forEachRemaining(x->{
+            user1.getCategories().iterator().forEachRemaining(x -> {
 
-               if (x.getCategoryIdOnApi()==category) {
+                if (x.getCategoryIdOnApi() == category) {
 
-                   x.getChannels().iterator().forEachRemaining(y->{
+                    x.getChannels().iterator().forEachRemaining(y -> {
 
-                       if(user1.getRole()==Role.ADMIN||user1.getRole()==Role.VIP){
-                           channels.add(y);
-                       }else if(y.getAccessTranslation()==AccessTranslation.all){
-                           channels.add(y);
-                       }
+                        if (user1.getRole() == Role.ADMIN || user1.getRole() == Role.VIP) {
+                            channels.add(y);
+                        } else if (y.getAccessTranslation() == AccessTranslation.all) {
+                            channels.add(y);
+                        }
 
-                   });
-               }
-           });
+                    });
+                }
+            });
         });
         return channels;
     }
 
 
     @Override
-    public Set<Category> getUserCategories(String name) {
+    public Set<Category> getUserCategories(String name) {// cheang fo return
         Optional<User> user = userRepository.findByName(name);
         return user.map(User::getCategories).orElseGet(HashSet::new);
     }
@@ -113,6 +112,32 @@ public class UserServiceImpl implements UserService {
         }));
         return channels;
     }
+
+    @Override
+    public Set<Channel> addUserFavourites(String userName, String channel) {
+
+        Optional<User> user = userRepository.findByName(userName);
+        Optional<Channel> optionalChannel = channelRepository.findByName(channel);
+        Optional<Favourite> favourite = favouriteRepository.findByName(channel);
+        user.ifPresent(us -> {
+            if (!favourite.isPresent()) {
+                optionalChannel.ifPresent(ch -> {
+                    if (ch.getAccessTranslation() == AccessTranslation.all || (us.getRole() == Role.ADMIN || us.getRole() == Role.VIP)) {
+                        Favourite favourite1 = new Favourite();
+                        favourite1.setName(channel);
+                        us.addFavourite(favourite1);
+                        us.addFavouriteChannel(ch);
+                        userRepository.save(us);
+                        favouriteRepository.save(favourite1);
+                    }
+                });
+            }
+        });
+
+        return this.getUserFavourites(userName);
+    }
+
+
 }
 
 

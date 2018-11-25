@@ -30,35 +30,9 @@ private UserRepository userRepository;
 @Autowired
 private ChannelRepository channelRepository;
 
-
-    private String name = "Test";
-    private int channelNumber = 1;
-    private AccessTranslation accessTranslation = AccessTranslation.all;
-    private int epgNumber = 10;
-    private int groupCategory = 2;
-    private String logo = "/logo.jpg";
-
-
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-//        Channel channel = new Channel();
-//        channel.setName(name);
-//        channel.setChannelNumber(channelNumber);
-//        channel.setAccessTranslation(accessTranslation);
-//        channel.setEpgNumber(epgNumber);
-//        channel.setGroupCategory(groupCategory);
-//        channel.setLogo(logo);
-//
-//        User user = new User();
-//            user.getChannels().add(channel);
-//
-//        user.setRole(Role.USER);
-//        user.setName("admin");
-//        user.setUserPassword(BCrypt.hashpw("1234", BCrypt.gensalt(12)));
-//        userRepository.save(user);
-//        channel.getUsers().add(user);
-//        channelRepository.save(channel);
 
          channelService.findChannelsFromTtvApi();
 

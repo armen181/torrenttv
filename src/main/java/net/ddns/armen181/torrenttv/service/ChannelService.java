@@ -13,5 +13,6 @@ public interface ChannelService {
     Set<Channel> getChannelsByFavourites();
     Set<Channel> getChannelsByCategory(int categoryId);
     Channel getChannel(long id);
+    Set<Channel> addFavourite(String channelName);
 
 }

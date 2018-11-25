@@ -49,6 +49,11 @@ public class MainController {
         return channelService.getChannelsByCategory(group);
     }
 
+    @GetMapping({"/addFavourites","/addFavourites.html"})
+    public Set<Channel>  addFavourites(@NonNull @RequestHeader String name){
+
+        return channelService.addFavourite(name);
+    }
 
 
     ///////////////////////////////////////////////////////////////////

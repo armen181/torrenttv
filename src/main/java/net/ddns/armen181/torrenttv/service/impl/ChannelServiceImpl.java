@@ -3,6 +3,7 @@ package net.ddns.armen181.torrenttv.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import net.ddns.armen181.torrenttv.domain.Category;
 import net.ddns.armen181.torrenttv.domain.Channel;
+import net.ddns.armen181.torrenttv.domain.User;
 import net.ddns.armen181.torrenttv.repository.CategoryRepository;
 import net.ddns.armen181.torrenttv.repository.ChannelRepository;
 import net.ddns.armen181.torrenttv.repository.ChannelsDao;
@@ -93,6 +94,13 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public Channel getChannel(long id) {
         return null;
+    }
+
+    @Override
+    public Set<Channel> addFavourite(String channelName) {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        return userService.addUserFavourites(securityContext.getAuthentication().getName(), channelName);
+
     }
 
 }

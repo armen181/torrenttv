@@ -13,7 +13,7 @@ import java.util.*;
 
 
 @Data
-@EqualsAndHashCode(exclude = {"favouriteChannels","categories"})
+@EqualsAndHashCode(exclude = {"favouriteChannels","categories","favouriteNames"})
 @Entity
 @Table(name = "user")
 public class User implements UserDetails {
@@ -62,6 +62,12 @@ public class User implements UserDetails {
     public User addCategory (Category category) {
         category.getUsers().add(this);
         this.categories.add(category);
+        return this;
+    }
+
+    public User addFavourite (Favourite favourite) {
+        favourite.setUser(this);
+        this.getFavouriteNames().add(favourite);
         return this;
     }
 

@@ -3,11 +3,13 @@ package net.ddns.armen181.torrenttv.domain;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.*;
 
 @Data
+@EqualsAndHashCode(exclude = {"user"})
 @Entity
 public class Favourite {
 
