@@ -1,14 +1,15 @@
 package net.ddns.armen181.torrenttv.controller;
 
 import lombok.NonNull;
+import net.ddns.armen181.torrenttv.DTO.UserDto;
 import net.ddns.armen181.torrenttv.domain.User;
 import net.ddns.armen181.torrenttv.service.UserService;
-import net.ddns.armen181.torrenttv.util.Role;
-import net.ddns.armen181.torrenttv.util.UserAccess;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 public class UserRegistration {
@@ -16,9 +17,13 @@ public class UserRegistration {
     @Autowired
     private UserService userService;
 
-    @GetMapping({"/register","/register.html"})
-    public User login(@RequestHeader @NonNull String name, @RequestHeader @NonNull String password){
-        return userService.userRegistration(name,password, UserAccess.BASE, Role.USER,false); //add favourite channel list
+    @PostMapping({"/register"})
+    public User login(@Valid @RequestBody @NonNull UserDto userDto){
+
+        return userService.userRegistration(userDto.getEMail(),
+                userDto.getFirsName(),userDto.getLastName(),
+                userDto.getUserPassword(),userDto.getRole()); //add favourite channel list
     }
+
 
 }

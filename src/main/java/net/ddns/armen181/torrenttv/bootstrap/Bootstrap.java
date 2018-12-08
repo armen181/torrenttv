@@ -22,13 +22,7 @@ private Environment env;
 @Autowired
 private UserService userService;
 @Autowired
-private ChannelsDao channelsDao;
-@Autowired
 private ChannelService channelService;
-@Autowired
-private UserRepository userRepository;
-@Autowired
-private ChannelRepository channelRepository;
 
     @Override
     @Transactional
@@ -36,14 +30,11 @@ private ChannelRepository channelRepository;
 
          channelService.findChannelsFromTtvApi();
 
-
-          userService.userRegistration(env.getProperty("admin.username"),env.getProperty("admin.password"), UserAccess.All, Role.ADMIN,false);
-          userService.userRegistration(env.getProperty("user.username"),env.getProperty("user.password"), UserAccess.BASE, Role.USER,false);
-        //userService.userRegistration(env.getProperty("user.username"),env.getProperty("user.password"), UserAccess.BASE, Role.USER,false,null);//channelService.getChannelsByCategory(2));
-       // userService.userRegistration(env.getProperty("vip.username"),env.getProperty("vip.password"), UserAccess.MIDDLE, Role.VIP,false,null);//channelService.getChannelsByCategory(3));
+         userService.userRegistration(env.getProperty("admin.eMail"),env.getProperty("admin.firstName"),env.getProperty("admin.lastName"),env.getProperty("admin.password"),Role.ADMIN);
+         userService.userRegistration(env.getProperty("user.eMail"),env.getProperty("user.firstName"),env.getProperty("user.lastName"),env.getProperty("user.password"),Role.valueOf(env.getProperty("user.role")));
 
 
-        channelService.getCategory(0);
+          channelService.getCategory(0);
 
     }
 }

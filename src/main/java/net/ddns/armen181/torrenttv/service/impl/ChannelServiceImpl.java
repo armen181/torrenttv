@@ -21,21 +21,16 @@ import java.util.Set;
 @Slf4j
 public class ChannelServiceImpl implements ChannelService {
 
-
     private  final TTVAPI ttvapi;
-
     private final ChannelRepository channelRepository;
-
-    private final ChannelsDao channelsDao;
-
     private final CategoryRepository categoryRepository;
-
     private final UserService userService;
-
-    public ChannelServiceImpl(TTVAPI ttvapi, ChannelRepository channelRepository, ChannelsDao channelsDao, CategoryRepository categoryRepository, UserService userService) {
+    public ChannelServiceImpl(TTVAPI ttvapi,
+                              ChannelRepository channelRepository,
+                              CategoryRepository categoryRepository,
+                              UserService userService) {
         this.ttvapi = ttvapi;
         this.channelRepository = channelRepository;
-        this.channelsDao = channelsDao;
         this.categoryRepository = categoryRepository;
         this.userService = userService;
     }
@@ -93,6 +88,7 @@ public class ChannelServiceImpl implements ChannelService {
     public Set<Channel> addFavourite(String channelName) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return userService.addUserFavourites(securityContext.getAuthentication().getName(), channelName);
+        
 
     }
 

@@ -10,12 +10,19 @@ import java.util.List;
 import java.util.Set;
 
 public interface UserService {
-    User userRegistration(String name, String password, UserAccess userAccess, Role role, Boolean isLock);
+    User userRegistration(String eMail, String firsName, String lastName,
+                          String password, Role role);
+
     User getByName(String name);
-    Set<Channel> getUserChannels (String name, int category);
+
+    Set<Channel> getUserChannels(String name, int category);
+
     Set<Category> getUserCategories(String name);
-    Set<Channel> getUserFavourites (String name);
+
+    Set<Channel> getUserFavourites(String name);
+
     Set<Channel> addUserFavourites(String name, String channel);
+
     Set<Channel> removeUserFavourites(String name, String channel);
 
 }

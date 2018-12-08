@@ -46,7 +46,7 @@ public class ChannelTest {
        channel.setLogo(logo);
         User user = new User();
         user.setRole(Role.USER);
-        user.setName("user");
+        user.setEMail("user");
         user.setUserPassword("1234");
         userRepository.save(user);
         channel.getUsers().add(user);

@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
@@ -29,7 +30,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
         http.httpBasic().and()
                 .authorizeRequests()
-                 .antMatchers("/h2-console/**","/registration.html","/js/**", "/register", "/", "/css/**").permitAll()
+                 .antMatchers("/**").permitAll()
                 .antMatchers("/rest/**").authenticated()
                 .and()
                 .formLogin()
@@ -51,20 +52,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
 
     }
-
-//    @Bean
-//    org.h2.tools.Server h2Server() {
-//        Server server = new Server();
-//        try {
-//            server.runTool("-tcp");
-//            server.runTool("-tcpAllowOthers");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return server;
-//
-//    }
-
 
 
 }

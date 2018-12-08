@@ -38,24 +38,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User userRegistration(String name, String password, UserAccess userAccess, Role role, Boolean isLock) {
+    public User userRegistration(String eMail,String firsName,String lastName,
+                                 String password, Role role) {
 
         User user = new User();
-        user.setName(name);
+        user.setEMail(eMail);
+        user.setFirsName(firsName);
+        user.setLastName(lastName);
         user.setUserPassword(BCrypt.hashpw(password, BCrypt.gensalt(12)));
         user.setRole(role);
-
-//        channelRepository.findAll().forEach(x -> {
-//            if (role == Role.ADMIN || role == Role.VIP)
-//                user.addFavouriteChannel(x);
-//            else {
-//                if (x.getAccessTranslation() == AccessTranslation.all)
-//                    user.addFavouriteChannel(x);
-//            }
-//
-//
-//        });
-
         categoryRepository.findAll().forEach(user::addCategory);
 
         return userRepository.save(user);
@@ -64,44 +55,41 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getByName(String name) {
         Assert.hasText(name, "name cannot be empty");
-        return userRepository.findByName(name).orElseThrow(() -> new IllegalStateException("User not Fount"));
+        return userRepository.findByEMail(name).orElseThrow(() -> new IllegalStateException("User not Fount"));
     }
 
     @Override
     public Set<Channel> getUserChannels(String name, int category) {
-        Optional<User> user = userRepository.findByName(name);
+        Optional<User> user = userRepository.findByEMail(name);
         final Set<Channel> channels = new HashSet<>();
-        user.ifPresent(user1 -> {
-            user1.getCategories().iterator().forEachRemaining(x -> {
+        user.ifPresent(user1 -> user1.getCategories().iterator().forEachRemaining(x -> {
 
-                if (x.getCategoryIdOnApi() == category) {
+            if (x.getCategoryIdOnApi() == category) {
+                x.getChannels().iterator().forEachRemaining(y -> {
 
-                    x.getChannels().iterator().forEachRemaining(y -> {
+                    if (user1.getRole() == Role.ADMIN || user1.getRole() == Role.VIP) {
+                        channels.add(y);
+                    } else if (y.getAccessTranslation() == AccessTranslation.all) {
+                        channels.add(y);
+                    }
 
-                        if (user1.getRole() == Role.ADMIN || user1.getRole() == Role.VIP) {
-                            channels.add(y);
-                        } else if (y.getAccessTranslation() == AccessTranslation.all) {
-                            channels.add(y);
-                        }
-
-                    });
-                }
-            });
-        });
+                });
+            }
+        }));
         return channels;
     }
 
 
     @Override
     public Set<Category> getUserCategories(String name) {// cheang fo return
-        Optional<User> user = userRepository.findByName(name);
+        Optional<User> user = userRepository.findByEMail(name);
         return user.map(User::getCategories).orElseGet(HashSet::new);
     }
 
     @Override
     public Set<Channel> getUserFavourites(String name) {
         Set<Channel> channels = new HashSet<>();
-        userRepository.findByName(name).ifPresent(user -> user.getFavouriteChannels().iterator().forEachRemaining(x -> {
+        userRepository.findByEMail(name).ifPresent(user -> user.getFavouriteChannels().iterator().forEachRemaining(x -> {
             if (user.getRole() == Role.ADMIN || user.getRole() == Role.VIP)
                 channels.add(x);
             else {
@@ -116,7 +104,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<Channel> addUserFavourites(String userName, String channel) {
 
-        Optional<User> user = userRepository.findByName(userName);
+        Optional<User> user = userRepository.findByEMail(userName);
         Optional<Channel> optionalChannel = channelRepository.findByName(channel);
         Optional<Favourite> favourite = favouriteRepository.findByName(channel);
         user.ifPresent(us -> {
@@ -138,7 +126,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Set<Channel> removeUserFavourites(String userName, String channel) {
-        Optional<User> user = userRepository.findByName(userName);
+        Optional<User> user = userRepository.findByEMail(userName);
         Optional<Channel> optionalChannel = channelRepository.findByName(channel);
         Optional<Favourite> favourite = favouriteRepository.findByName(channel);
         user.ifPresent(us -> {
