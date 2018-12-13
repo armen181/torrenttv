@@ -15,7 +15,7 @@ public interface UserService {
 
     User getByName(String name);
 
-    Set<Channel> getUserChannels(String name, int category);
+    Set<Channel> getUserChannels(String name, Integer category);
 
     Set<Category> getUserCategories(String name);
 

@@ -1,62 +1,141 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Torrent TV</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<style>
+		.dropbtn {
+			background-color: rgba(255, 255, 255, 0.0);
+			color: #586169;
+			padding: 16px;
+			font-size: 16px;
+			border: none;
+			cursor: pointer;
+		}
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
 
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="css/site.css">
-    <script src="js/script.js"></script>
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+			min-width: 160px;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			z-index: 1;
+		}
+
+		.dropdown-content a {
+			color: black;
+			padding: 12px 16px;
+			text-decoration: none;
+			display: block;
+		}
+
+		.dropdown-content a:hover {background-color: #f1f1f1}
+
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
+
+		.dropdown:hover .dropbtn {
+			background-color: #ffffff;
+		}
+	</style>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Torrent TV</title>
+	<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!--Waypoints-->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!--Magnific Popup-->
+	<script src="js/jquery.magnific-popup.min.js"></script>
+
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="css/animate.css">
+	<link rel="stylesheet" href="css/icomoon.css">
+	<link rel="stylesheet" href="css/salvattore.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/new.js"></script>
 
 
 </head>
 <body>
 
-
-<div class="row">
-
-
-    <div class="col-xs-4 mb-4">
-        <button class="btn btn-default btn-block" id="updateFirstCol">Update</button>
-
-        <br>
-
-        <div class="card example-1 square scrollbar-dusty-grass square thin">
-            <div class="col-xs-12" id="dataForTTV">
-                <div class="raw container-fluid">
-
-                </div>
-
-            </div>
-                </div>
-
-
-            </div>
-
-            <div class="col-xs-6 mb-4">
-
-
-            </div>
-
-            <div class="col-xs-2 mb-4">
-
-
-                <div class="card example-1 square scrollbar-dusty-grass square thin">
-
-                </div>
+<div id="fh5co-offcanvass">
+	<a href="#" class="fh5co-offcanvass-close js-fh5co-offcanvass-close">Menu <i class="icon-cross"></i> </a>
+	<h1 class="fh5co-logo"><a class="navbar-brand" href="index1.html">Torrent TV</a></h1>
+	<ul>
+		<li class="active"><a href="index1.html">Home</a></li>
+		<li><a href="about.html">About</a></li>
+		<li><a href="pricing.html">Pricing</a></li>
+		<li><a href="contact.html">Contact</a></li>
+	</ul>
+	<h3 class="fh5co-lead">Connect with us</h3>
+</div>
+<header id="fh5co-header" role="banner">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="dropdown">
+					<button class="dropbtn btn">Category</button>
+					<div class="dropdown-content">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<a href="#" class="fh5co-menu-btn js-fh5co-menu-btn pull-right">Menu <i class="icon-menu"></i></a>
+			</div>
+		</div>
+	</div>
+</header>
+<!-- END .header -->
 
 
-            </div>
+<div id="fh5co-main">
+	<div class="container">
 
+		<div class="row">
+			<div id="fh5co-board" data-columns>
+			</div>
+		</div>
+	</div>
+</div>
 
-        </div>
+<footer id="fh5co-footer">
 
+	<div class="container">
+		<div class="row row-padded">
+			<div class="col-md-12 text-center">
+				<p class="fh5co-social-icons">
+					<a href="#"><i class="icon-twitter"></i></a>
+					<a href="#"><i class="icon-facebook"></i></a>
+					<a href="#"><i class="icon-instagram"></i></a>
+					<a href="#"><i class="icon-dribbble"></i></a>
+					<a href="#"><i class="icon-youtube"></i></a>
+				</p>
+				<p><small>&copy; Torrent TV </small></p>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script>
+
+    $('body').on('click', '.js-fh5co-menu-btn, .js-fh5co-offcanvass-close', function(){
+        $('#fh5co-offcanvass').toggleClass('fh5co-awake');
+    });
+
+</script>
 
 </body>
 </html>

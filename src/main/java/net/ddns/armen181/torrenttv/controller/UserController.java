@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-public class UserRegistration {
+public class UserController {
 
     @Autowired
     private UserService userService;

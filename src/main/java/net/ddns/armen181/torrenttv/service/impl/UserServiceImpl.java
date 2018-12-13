@@ -1,5 +1,6 @@
 package net.ddns.armen181.torrenttv.service.impl;
 
+import io.jsonwebtoken.lang.Assert;
 import lombok.extern.slf4j.Slf4j;
 import net.ddns.armen181.torrenttv.domain.Category;
 import net.ddns.armen181.torrenttv.domain.Channel;
@@ -12,12 +13,10 @@ import net.ddns.armen181.torrenttv.repository.UserRepository;
 import net.ddns.armen181.torrenttv.service.UserService;
 import net.ddns.armen181.torrenttv.util.AccessTranslation;
 import net.ddns.armen181.torrenttv.util.Role;
-import net.ddns.armen181.torrenttv.util.UserAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -38,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User userRegistration(String eMail,String firsName,String lastName,
+    public User userRegistration(String eMail, String firsName, String lastName,
                                  String password, Role role) {
 
         User user = new User();
@@ -59,12 +58,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<Channel> getUserChannels(String name, int category) {
+    public Set<Channel> getUserChannels(String name, Integer category) {
         Optional<User> user = userRepository.findByEMail(name);
         final Set<Channel> channels = new HashSet<>();
         user.ifPresent(user1 -> user1.getCategories().iterator().forEachRemaining(x -> {
 
-            if (x.getCategoryIdOnApi() == category) {
+            if ((x.getCategoryIdOnApi() == category)|| (category==0)) {
                 x.getChannels().iterator().forEachRemaining(y -> {
 
                     if (user1.getRole() == Role.ADMIN || user1.getRole() == Role.VIP) {

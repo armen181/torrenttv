@@ -1,4 +1,4 @@
-package net.ddns.armen181.torrenttv.Configuration;
+package net.ddns.armen181.torrenttv.Configuration.securety;
 
 
 import net.ddns.armen181.torrenttv.domain.User;

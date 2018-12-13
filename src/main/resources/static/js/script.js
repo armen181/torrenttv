@@ -6,18 +6,18 @@ $(document).ready(function () {
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "list",
+            "url": "rest/category",
             "method": "GET",
             "headers": {
-                "list": 11
+                "group": 1
             }
         }
             $.ajax(settings).done(function (response) {
             if(response!=null) {
                 var data= "";
-
+                 console.log(response);
                 for(var i=0;i<response.length;i++){
-                    data += "<div class=\"raw container-fluid TTVChannelBTN\"  channelId=\"" + response[i].channelId +"\">\n       " +
+                    data += "<div class=\"raw container-fluid TTVChannelBTN\"  channelId=\"" + response[i].channelNumber +"\">\n       " +
                         "                    <div class=\"col-xs-3\">\n" +
                         "                        <div class=\"img-container\">\n" +
                         "                            <img src=\"http://1ttv.org/uploads/" +  response[i].logo + "\">\n" +
@@ -41,10 +41,11 @@ $(document).ready(function () {
 
     $('body').on("click", ".TTVChannelBTN", function (e) {
         console.log(e.currentTarget.attributes.channelid.value)
+        console.log(e)
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "channel",
+            "url": "rest/channel",
             "method": "GET",
             "headers": {
                 "channelId": e.currentTarget.attributes.channelid.value,

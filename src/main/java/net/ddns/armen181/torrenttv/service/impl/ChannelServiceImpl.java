@@ -1,6 +1,8 @@
 package net.ddns.armen181.torrenttv.service.impl;
 
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import net.ddns.armen181.torrenttv.DTO.TTVChannelDto;
 import net.ddns.armen181.torrenttv.domain.Category;
 import net.ddns.armen181.torrenttv.domain.Channel;
 import net.ddns.armen181.torrenttv.repository.CategoryRepository;
@@ -15,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -62,7 +65,7 @@ public class ChannelServiceImpl implements ChannelService {
 
 
     @Override
-    public Category getCategory(int id) {
+    public Category getCategory(Integer id) {
        return categoryRepository.findById(1L).isPresent()?categoryRepository.findById(1L).get():null;
 
     }
@@ -74,14 +77,14 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public Set<Channel> getChannelsByCategory(int categoryId) {
+    public Set<Channel> getChannelsByCategory(Integer categoryId) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return userService.getUserChannels(securityContext.getAuthentication().getName(), categoryId);
     }
 
     @Override
-    public Channel getChannel(long id) {
-        return null;
+    public TTVChannelDto getChannel(Integer id) {
+        return ttvapi.translationStreamById(ttvapi.getSessionId(), id);
     }
 
     @Override
@@ -96,6 +99,11 @@ public class ChannelServiceImpl implements ChannelService {
     public Set<Channel> removeFavourite(String channelName) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return userService.removeUserFavourites(securityContext.getAuthentication().getName(), channelName);
+    }
+
+    @Override
+    public List<Category> getCategory() {
+        return Lists.newArrayList(categoryRepository.findAll());
     }
 
 }

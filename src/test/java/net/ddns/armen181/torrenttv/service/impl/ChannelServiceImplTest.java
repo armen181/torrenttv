@@ -83,7 +83,7 @@ public class ChannelServiceImplTest {
         channelRepository.save(channel1);
       //  channelService.saveChannel(channel);
         System.out.println("############");
-        System.out.println(channelService.getChannel(1l));
+        //System.out.println(channelService.getChannel(1l));
 //        channelRepository.findAll().iterator().forEachRemaining(System.out::println);
       //  System.out.println(channelService.getChannel(0l));
          //channelService.saveChannel(channel);

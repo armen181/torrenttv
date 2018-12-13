@@ -1,6 +1,6 @@
 package net.ddns.armen181.torrenttv;
 
-import org.hibernate.Session;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
