@@ -15,43 +15,65 @@ $(document).ready(function () {
         }
         data += "</div>"
         $('.dropdown-content').replaceWith(data);
+        getCategory(parseInt(3));
     });
 
-    $('body').on("click", ".dropdown-item", function (e) {
-       console.log(parseInt(e.currentTarget.attributes.value.value));
-        var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "rest/category",
-            "method": "GET",
-            "headers": {
-                "group": parseInt(e.currentTarget.attributes.value.value)
-            }
-        };
-        $.ajax(settings).done(function (response) {
-         console.log(response);
-            var data= "<div id=\"fh5co-board\" data-columns>";
-            console.log(response);
-            for(var i=0;i<response.length;i++) {
-                data += "<div class=\"item\"  value=\"" + response[i].channelNumber + "\">\n" +
-                    "        <div class=\"animate-box\" >\n" +
-                    "        <a class=\"fh5co-board-img\"><img src=\"http://1ttv.org/uploads/" + response[i].logo + "\"  height=\"42\" width=\"84\">" + "</a>\n" +
-                    "        </div>\n" +
-                    "<div class=\"fh5co-desc\">"+ response[i].name+"</div>" +
-                    "</div>";
-            }
-            data += "</div>";
-            $('#fh5co-board').replaceWith(data);
-            size();
-            update();
-        });
+    $("#streams").change(function() {
+        var stream_id = $(this).val(),
+            curtime = player.getTime();
+        console.log("stream changed: stream_id=" + stream_id + " time=" + curtime);
+        if(lastPlaybackSession) {
+            var params = {};
+            $.extend(params, lastPlaybackSession);
+            params.stream_id = stream_id;
+            startPlaybackSession(params);
+        }
+    });
 
+
+    $('body').on("click", ".dropdown-item", function (e) {
+        getCategory(parseInt(e.currentTarget.attributes.value.value));
     });
 
      $('body').on("click", ".item", function (e) {
-     console.log(e);
+     console.log(e.currentTarget.attributes.value.value);
+
+         var s = {
+             "async": true,
+             "crossDomain": true,
+             "url": "rest/getChannel",
+             "method": "GET",
+             "headers": {
+                 "channelId":e.currentTarget.attributes.value.value
+             }
+         };
+         $.ajax(s).done(function (response) {
+             console.log(response);
+             initPlaybackSession({
+                 mode: "ace",
+                 transport_file_url: response.source
+             });
+         });
+
+
+
+
+         $('#creatAndAddOrderToTable').modal({
+             backdrop: 'static',
+             keyboard: false
+         }, 'show');
+         // $('#editProductInOrder').modal('hide');
     });
 });
+
+$('body').on("click", ".editProductInOrder", function (e) {
+
+
+
+});
+
+
+
 
 
 function update() {
@@ -366,5 +388,33 @@ function size() {
             }
         }(window, window.document);
         return e
+    });
+}
+
+function getCategory(group) {
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "rest/category",
+        "method": "GET",
+        "headers": {
+            "group": group
+        }
+    };
+    $.ajax(settings).done(function (response) {
+        var data= "<div id=\"fh5co-board\" data-columns>";
+        console.log(response);
+        for(var i=0;i<response.length;i++) {
+            data += "<div class=\"item\"  value=\"" + response[i].channelNumber + "\">\n" +
+                "        <div class=\"animate-box\" >\n" +
+                "        <a class=\"fh5co-board-img\"><img src=\"http://1ttv.org/uploads/" + response[i].logo + "\"  height=\"42\" width=\"84\">" + "</a>\n" +
+                "        </div>\n" +
+                "<div class=\"fh5co-desc\">"+ response[i].name+"</div>" +
+                "</div>";
+        }
+        data += "</div>";
+        $('#fh5co-board').replaceWith(data);
+        size();
+        update();
     });
 }

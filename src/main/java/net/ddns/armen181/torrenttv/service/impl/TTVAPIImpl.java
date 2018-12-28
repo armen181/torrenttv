@@ -85,10 +85,10 @@ public class TTVAPIImpl implements TTVAPI {
 
         try {
             TTVChannelDto ttvChannelDto = gson.fromJson(sendGet(targetURL, urlParameters), TTVChannelDto.class);
-            URIBuilder urlBuilder = new URIBuilder("");
-            urlBuilder.setParameter("id", ttvChannelDto.getSource());
-            ttvChannelDto.setSource(env.getProperty("server.url")+urlBuilder.toString().substring(4)+"/video.mp4");
-            return ttvChannelDto;
+           // URIBuilder urlBuilder = new URIBuilder("");
+           // urlBuilder.setParameter("id", ttvChannelDto.getSource());
+           // ttvChannelDto.setSource(env.getProperty("server.url")+urlBuilder.toString().substring(4)+"/video.mp4");
+           return ttvChannelDto;
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -19,8 +19,8 @@ public class ChannelController {
         this.channelService = channelService;
     }
 
-    @GetMapping({"/channel"})
-    public TTVChannelDto getChannel(@NonNull @RequestHeader Integer channelId){
+    @GetMapping({"/getChannel"})
+    public TTVChannelDto get(@NonNull @RequestHeader Integer channelId){
         return channelService.getChannel(channelId);
     }
 }

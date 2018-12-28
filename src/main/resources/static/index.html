@@ -58,6 +58,12 @@
 	<!--Magnific Popup-->
 	<script src="js/jquery.magnific-popup.min.js"></script>
 
+
+	<script src="//releases.flowplayer.org/js/flowplayer-3.2.13.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 
@@ -66,6 +72,7 @@
 	<link rel="stylesheet" href="css/salvattore.css">
 	<link rel="stylesheet" href="css/style.css">
 	<script src="js/new.js"></script>
+	<script src="js/flowplayer.js"></script>
 
 
 </head>
@@ -137,5 +144,42 @@
 
 </script>
 
+
+<!--Add Order to Table-->
+<div class="modal fade" id="creatAndAddOrderToTable" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+	 aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="form-group">
+					<div class="col-sm-12">
+						<h5 class="modal-title" id="nameForModal">Please write name for new Order </h5>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="container">
+					<div id="player"><span></span></div>
+					<div style="float: left; margin-left: 10px;">
+						<select id="streams" style="display: none;"></select>
+					</div>
+					<div style="clear: left;"></div>
+
+					<!--<input type="text" id="source-transport-file-url" value="" placeholder="Transport file URL" />-->
+					<!--<input type="button" onclick="initPlaybackSessionFromTransportFileURL();" value="start" />-->
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+    var ENGINE_HOST = '192.168.5.40', ENGINE_PORT = 6878;
+    console.log("Using engine " + ENGINE_HOST + ":" + ENGINE_PORT);
+    install_player();
+</script>
 </body>
 </html>
